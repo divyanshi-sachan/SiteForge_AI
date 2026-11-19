@@ -86,13 +86,13 @@ export const Preview = memo(() => {
   const activeViewport = VIEWPORTS.find((v) => v.id === viewport) ?? VIEWPORTS[0];
 
   return (
-    <div className="w-full h-full flex flex-col bg-bolt-elements-background-depth-2">
+    <div className="w-full h-full flex flex-col bg-transparent">
       {isPortDropdownOpen && (
         <div className="z-iframe-overlay w-full h-full absolute" onClick={() => setIsPortDropdownOpen(false)} />
       )}
 
       {/* Preview toolbar */}
-      <div className="flex items-center gap-2 px-3 py-2 border-b border-bolt-elements-borderColor bg-bolt-elements-background-depth-1">
+      <div className="flex items-center gap-2 px-3 py-2 border-b border-bolt-elements-borderColor bg-white/40">
         <IconButton icon="i-ph:arrow-clockwise" title="Reload preview" onClick={reloadPreview} />
 
         <div
@@ -147,7 +147,7 @@ export const Preview = memo(() => {
               className={classNames(
                 'flex items-center justify-center w-7 h-7 rounded-full text-base transition-theme',
                 {
-                  'bg-bolt-elements-item-backgroundAccent text-bolt-elements-item-contentAccent': viewport === v.id,
+                  'bg-accent-500 text-white': viewport === v.id,
                   'text-bolt-elements-textTertiary hover:text-bolt-elements-textPrimary': viewport !== v.id,
                 },
               )}
@@ -159,9 +159,9 @@ export const Preview = memo(() => {
       </div>
 
       {/* Viewport frame */}
-      <div className="flex-1 overflow-auto flex items-start justify-center bg-bolt-elements-background-depth-3 p-0 sm:p-4">
+      <div className="flex-1 overflow-auto flex items-start justify-center bg-black/[0.03] p-0 sm:p-4">
         <div
-          className="h-full bg-white transition-[width] duration-300 ease-out shadow-sm"
+          className="h-full bg-white transition-[width] duration-300 ease-out shadow-xl ring-1 ring-black/5 sm:rounded-xl overflow-hidden"
           style={{
             width: activeViewport.width ?? '100%',
             maxWidth: '100%',

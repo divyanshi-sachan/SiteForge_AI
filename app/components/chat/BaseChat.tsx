@@ -47,7 +47,7 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
     ref,
   ) => {
     return (
-      <div ref={ref} className="relative flex h-full w-full overflow-hidden bg-bolt-elements-background-depth-1">
+      <div ref={ref} className="relative flex h-full w-full overflow-hidden">
         <ClientOnly>{() => <ProjectSidebar />}</ClientOnly>
 
         {!chatStarted ? (
@@ -110,12 +110,15 @@ function BuilderWorkspace({
   const activeTab = useStore(mobileActiveTab);
 
   return (
-    <div className="flex flex-col md:flex-row w-full h-full min-h-0">
+    <div className="flex flex-col md:flex-row w-full h-full min-h-0 gap-3 p-3 md:p-4 md:pt-2">
       <div
-        className={classNames('flex-col min-h-0 md:flex md:w-[380px] lg:w-[420px] md:shrink-0', {
-          flex: activeTab === 'ai',
-          hidden: activeTab !== 'ai',
-        })}
+        className={classNames(
+          'flex-col min-h-0 md:flex md:w-[380px] lg:w-[420px] md:shrink-0 glass rounded-2xl overflow-hidden',
+          {
+            flex: activeTab === 'ai',
+            hidden: activeTab !== 'ai',
+          },
+        )}
       >
         <AiConversation
           textareaRef={textareaRef}
@@ -134,7 +137,7 @@ function BuilderWorkspace({
       </div>
 
       <div
-        className={classNames('flex-1 min-h-0 md:flex md:border-l border-bolt-elements-borderColor', {
+        className={classNames('flex-1 min-h-0 min-w-0 md:flex glass rounded-2xl overflow-hidden', {
           flex: activeTab !== 'ai',
           hidden: activeTab === 'ai',
         })}

@@ -1,8 +1,9 @@
-import { json, type LoaderFunctionArgs } from '@remix-run/cloudflare';
+import type { LoaderFunctionArgs } from '@vercel/remix';
+import { authGate, jsonResponse } from '~/lib/.server/auth';
 import { default as IndexRoute } from './_index';
 
 export async function loader(args: LoaderFunctionArgs) {
-  return json({ id: args.params.id });
+  return authGate(args.request) ?? jsonResponse({ id: args.params.id });
 }
 
 export default IndexRoute;

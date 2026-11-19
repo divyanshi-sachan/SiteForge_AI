@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Dialog, DialogButton, DialogDescription, DialogRoot, DialogTitle } from '~/components/ui/Dialog';
 import { IconButton } from '~/components/ui/IconButton';
-import { ThemeSwitch } from '~/components/ui/ThemeSwitch';
 import { db, deleteById, getAll, chatId, type ChatHistoryItem } from '~/lib/persistence';
 import { projectSidebarOpen } from '~/lib/stores/ui';
 import { cubicEasingFn } from '~/utils/easings';
@@ -97,13 +96,18 @@ export function ProjectSidebar() {
 
   return (
     <>
-      {open && <div className="fixed inset-0 bg-black/20 z-sidebar" onClick={() => projectSidebarOpen.set(false)} />}
+      {open && (
+        <div
+          className="fixed inset-0 bg-white/30 backdrop-blur-sm z-sidebar"
+          onClick={() => projectSidebarOpen.set(false)}
+        />
+      )}
       <motion.div
         ref={sidebarRef}
         initial="closed"
         animate={open ? 'open' : 'closed'}
         variants={sidebarVariants}
-        className="flex flex-col fixed top-0 w-[340px] h-full bg-bolt-elements-background-depth-2 border-r border-bolt-elements-borderColor z-sidebar shadow-xl shadow-bolt-elements-sidebar-dropdownShadow text-sm"
+        className="flex flex-col fixed top-0 w-[340px] h-full glass-strong border-r border-bolt-elements-borderColor z-sidebar text-sm"
       >
         <div className="flex-1 flex flex-col h-full w-full overflow-hidden">
           <div className="flex items-center justify-between px-4 pt-4 pb-2">
@@ -169,9 +173,6 @@ export function ProjectSidebar() {
                 )}
               </Dialog>
             </DialogRoot>
-          </div>
-          <div className="flex items-center border-t border-bolt-elements-borderColor p-4">
-            <ThemeSwitch className="ml-auto" />
           </div>
         </div>
       </motion.div>

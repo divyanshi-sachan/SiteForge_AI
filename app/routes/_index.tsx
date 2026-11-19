@@ -1,4 +1,5 @@
-import { json, type MetaFunction } from '@remix-run/cloudflare';
+import type { LoaderFunctionArgs, MetaFunction } from '@vercel/remix';
+import { authGate, jsonResponse } from '~/lib/.server/auth';
 import { ClientOnly } from 'remix-utils/client-only';
 import { BaseChat } from '~/components/chat/BaseChat';
 import { Chat } from '~/components/chat/Chat.client';
@@ -9,7 +10,9 @@ export const meta: MetaFunction = () => {
   return [{ title: BRAND.name }, { name: 'description', content: BRAND.description }];
 };
 
-export const loader = () => json({});
+export async function loader({ request }: LoaderFunctionArgs) {
+  return authGate(request) ?? jsonResponse({});
+}
 
 export default function Index() {
   return (

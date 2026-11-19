@@ -13,12 +13,7 @@ export function MobileTabBar({ className }: { className?: string }) {
   const active = useStore(mobileActiveTab);
 
   return (
-    <div
-      className={classNames(
-        'flex items-center justify-around border-t border-bolt-elements-borderColor bg-bolt-elements-background-depth-1 shrink-0',
-        className,
-      )}
-    >
+    <div className={classNames('flex items-center justify-around glass rounded-2xl shrink-0', className)}>
       {TABS.map((tab) => (
         <button
           key={tab.id}

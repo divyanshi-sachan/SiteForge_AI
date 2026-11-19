@@ -29,5 +29,66 @@ code, pre, kbd, samp,
 }
 
 ::selection {
-  background: rgba(244, 63, 107, 0.25);
+  background: rgba(24, 24, 27, 0.16);
+}
+
+/* ---------- Light glass theme ---------- */
+html,
+body {
+  background-color: #fbfbfc;
+}
+
+body {
+  color: #0a0a0b;
+  background-image:
+    radial-gradient(46rem 30rem at 6% -8%, rgba(184, 198, 255, 0.42), transparent 62%),
+    radial-gradient(40rem 28rem at 98% 2%, rgba(255, 203, 220, 0.36), transparent 62%),
+    radial-gradient(44rem 32rem at 80% 106%, rgba(186, 232, 255, 0.4), transparent 62%),
+    radial-gradient(34rem 26rem at -4% 98%, rgba(255, 230, 192, 0.32), transparent 62%);
+  background-attachment: fixed;
+}
+
+.glass {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(22px) saturate(165%);
+  backdrop-filter: blur(22px) saturate(165%);
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-strong {
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: blur(28px) saturate(170%);
+  backdrop-filter: blur(28px) saturate(170%);
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-bar {
+  background: rgba(255, 255, 255, 0.45);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+}
+
+.glass-pill {
+  background: rgba(255, 255, 255, 0.62);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+  box-shadow:
+    0 1px 0 var(--glass-highlight) inset,
+    0 0 0 1px var(--glass-edge),
+    0 4px 12px -6px rgba(24, 24, 40, 0.14);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(15, 15, 20, 0.2) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(15, 15, 20, 0.18);
+  border-radius: 999px;
 }

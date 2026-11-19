@@ -1,0 +1,9 @@
+node_modules
+build
+.git
+.pnpm-store
+.vercel
+.wrangler
+screenshots
+.env*
+*.log

@@ -1,4 +1,5 @@
-import { cloudflareDevProxyVitePlugin as remixCloudflareDevProxy, vitePlugin as remixVitePlugin } from '@remix-run/dev';
+import { vitePlugin as remixVitePlugin } from '@remix-run/dev';
+import { vercelPreset } from '@vercel/remix/vite';
 import UnoCSS from 'unocss/vite';
 import { defineConfig, type ViteDevServer } from 'vite';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
@@ -11,15 +12,17 @@ export default defineConfig((config) => {
       target: 'esnext',
     },
     ssr: {
-      noExternal: ['path-browserify', 'buffer'],
+      noExternal: ['path-browserify', 'buffer', 'istextorbinary'],
     },
     plugins: [
       config.command === 'build' &&
         nodePolyfills({
           include: ['path', 'buffer'],
         }),
-      config.mode !== 'test' && remixCloudflareDevProxy(),
       remixVitePlugin({
+        // Vercel's serverless output only when building on Vercel (it sets VERCEL=1); everywhere else
+        // (Forge, Docker, local) the build is a plain Node server started with `pnpm start`.
+        presets: process.env.VERCEL ? [vercelPreset()] : [],
         future: {
           v3_fetcherPersist: true,
           v3_relativeSplatPath: true,

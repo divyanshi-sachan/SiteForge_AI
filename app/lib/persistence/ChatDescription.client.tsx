@@ -71,7 +71,7 @@ export function ChatDescription() {
       type="button"
       title="Rename project"
       onClick={startEditing}
-      className="truncate max-w-full hover:text-bolt-elements-textSecondary transition-theme"
+      className="truncate max-w-full bg-transparent hover:text-bolt-elements-textSecondary transition-theme"
     >
       {currentDescription}
     </button>

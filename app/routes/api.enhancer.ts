@@ -1,4 +1,5 @@
-import { type ActionFunctionArgs } from '@remix-run/cloudflare';
+import type { ActionFunctionArgs } from '@vercel/remix';
+import { authGate } from '~/lib/.server/auth';
 import { StreamingTextResponse, parseStreamPart } from 'ai';
 import { streamText } from '~/lib/.server/llm/stream-text';
 import { stripIndents } from '~/utils/stripIndent';
@@ -6,12 +7,20 @@ import { stripIndents } from '~/utils/stripIndent';
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 
+export const config = { maxDuration: 60 };
+
 export async function action(args: ActionFunctionArgs) {
   return enhancerAction(args);
 }
 
-async function enhancerAction({ context, request }: ActionFunctionArgs) {
-  const { message } = await request.json<{ message: string }>();
+async function enhancerAction({ request }: ActionFunctionArgs) {
+  const blocked = authGate(request, { api: true });
+
+  if (blocked) {
+    return blocked;
+  }
+
+  const { message } = (await request.json()) as { message: string };
 
   try {
     const result = await streamText(
@@ -29,7 +38,7 @@ async function enhancerAction({ context, request }: ActionFunctionArgs) {
         `,
         },
       ],
-      context.cloudflare.env,
+      process.env as unknown as Env,
     );
 
     const transformStream = new TransformStream({

@@ -40,8 +40,8 @@ export function PromptComposer({
   return (
     <div
       className={classNames(
-        'w-full border border-bolt-elements-borderColor bg-bolt-elements-prompt-background backdrop-filter backdrop-blur-[8px] overflow-hidden transition-theme',
-        isHero ? 'rounded-2xl shadow-lg' : 'rounded-xl shadow-sm',
+        'w-full glass-strong overflow-hidden transition-theme',
+        isHero ? 'rounded-3xl' : 'rounded-2xl',
       )}
     >
       <textarea
@@ -96,7 +96,7 @@ export function PromptComposer({
             type="button"
             disabled={!canSubmit}
             onClick={onSubmit}
-            className="flex items-center gap-2 bg-accent-500 hover:bg-accent-600 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-medium px-4 py-2 rounded-lg transition-theme"
+            className="flex items-center gap-2 bg-accent-500 hover:bg-accent-600 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-medium px-5 py-2.5 rounded-full shadow-md transition-theme"
           >
             {submitLabel ?? 'Generate Website'}
             <div className="i-ph:arrow-right text-base" />

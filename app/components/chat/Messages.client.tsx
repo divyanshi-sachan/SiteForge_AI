@@ -32,7 +32,7 @@ export const Messages = React.forwardRef<HTMLDivElement, MessagesProps>((props: 
             if (isUserMessage) {
               return (
                 <div key={index} className={classNames('flex justify-end w-full', { 'mt-6': !isFirst })}>
-                  <div className="max-w-[85%] bg-bolt-elements-item-backgroundAccent text-bolt-elements-textPrimary rounded-2xl rounded-tr-md px-4 py-3">
+                  <div className="max-w-[85%] glass-pill text-bolt-elements-textPrimary rounded-2xl rounded-tr-md px-4 py-3">
                     <UserMessage content={content} />
                   </div>
                 </div>

@@ -104,7 +104,7 @@ export const Dialog = memo(({ className, children, onBackdrop, onClose }: Dialog
     <RadixDialog.Portal>
       <RadixDialog.Overlay onClick={onBackdrop} asChild>
         <motion.div
-          className="bg-black/50 fixed inset-0 z-max"
+          className="bg-white/40 backdrop-blur-sm fixed inset-0 z-max"
           initial="closed"
           animate="open"
           exit="closed"

@@ -14,7 +14,7 @@ export function Header() {
   return (
     <header
       className={classNames(
-        'flex items-center bg-bolt-elements-background-depth-1 px-4 sm:px-5 border-b h-[var(--header-height)] gap-3 shrink-0',
+        'flex items-center glass-bar px-4 sm:px-5 border-b h-[var(--header-height)] gap-3 shrink-0',
         {
           'border-transparent': !chat.started,
           'border-bolt-elements-borderColor': chat.started,
@@ -37,10 +37,20 @@ export function Header() {
         <ClientOnly>{() => <ChatDescription />}</ClientOnly>
       </span>
 
+      <form method="post" action="/logout" className="hidden sm:block shrink-0">
+        <button
+          type="submit"
+          title="Sign out"
+          className="text-sm px-3 py-1.5 rounded-full glass-pill text-bolt-elements-textSecondary hover:text-bolt-elements-textPrimary transition-theme"
+        >
+          Sign out
+        </button>
+      </form>
+
       {chat.started && (
         <a
           href="/"
-          className="hidden sm:flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg border border-bolt-elements-borderColor text-bolt-elements-textSecondary hover:text-bolt-elements-textPrimary hover:bg-bolt-elements-item-backgroundActive transition-theme shrink-0"
+          className="hidden sm:flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-full bg-accent-500 text-white hover:bg-accent-600 shadow-sm transition-theme shrink-0"
         >
           <div className="i-ph:plus" />
           New Project

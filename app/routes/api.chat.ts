@@ -1,15 +1,25 @@
-import { type ActionFunctionArgs } from '@remix-run/cloudflare';
+import type { ActionFunctionArgs } from '@vercel/remix';
+import { authGate } from '~/lib/.server/auth';
 import { MAX_RESPONSE_SEGMENTS, MAX_TOKENS } from '~/lib/.server/llm/constants';
 import { CONTINUE_PROMPT } from '~/lib/.server/llm/prompts';
 import { streamText, type Messages, type StreamingOptions } from '~/lib/.server/llm/stream-text';
 import SwitchableStream from '~/lib/.server/llm/switchable-stream';
 
+// generations stream for a minute or more
+export const config = { maxDuration: 300 };
+
 export async function action(args: ActionFunctionArgs) {
   return chatAction(args);
 }
 
-async function chatAction({ context, request }: ActionFunctionArgs) {
-  const { messages } = await request.json<{ messages: Messages }>();
+async function chatAction({ request }: ActionFunctionArgs) {
+  const blocked = authGate(request, { api: true });
+
+  if (blocked) {
+    return blocked;
+  }
+
+  const { messages } = (await request.json()) as { messages: Messages };
 
   const stream = new SwitchableStream();
 
@@ -22,7 +32,10 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
         }
 
         if (stream.switches >= MAX_RESPONSE_SEGMENTS) {
-          throw Error('Cannot continue message: Maximum segments reached');
+          // end the response cleanly instead of throwing, so the client does not hang on "Generating..."
+          console.warn('Maximum response segments reached: closing the stream');
+
+          return stream.close();
         }
 
         const switchesLeft = MAX_RESPONSE_SEGMENTS - stream.switches;
@@ -32,13 +45,13 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
         messages.push({ role: 'assistant', content });
         messages.push({ role: 'user', content: CONTINUE_PROMPT });
 
-        const result = await streamText(messages, context.cloudflare.env, options);
+        const result = await streamText(messages, process.env as unknown as Env, options);
 
         return stream.switchSource(result.toAIStream());
       },
     };
 
-    const result = await streamText(messages, context.cloudflare.env, options);
+    const result = await streamText(messages, process.env as unknown as Env, options);
 
     stream.switchSource(result.toAIStream());
 
